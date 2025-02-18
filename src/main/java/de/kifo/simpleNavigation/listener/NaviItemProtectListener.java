@@ -12,22 +12,13 @@ import org.bukkit.inventory.ItemStack;
 
 import static de.kifo.simpleNavigation.Main.itemService;
 import static de.kifo.simpleNavigation.Main.navigationService;
-import static de.kifo.simpleNavigation.common.service.ItemService.NAVI_ITEM_KEY;
-import static java.util.Arrays.stream;
-import static java.util.Objects.nonNull;
 
 public class NaviItemProtectListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-
-        stream(player.getInventory().getContents())
-                .filter(itemStack -> nonNull(itemStack) && nonNull(itemStack.getItemMeta()))
-                .filter(itemStack -> itemStack.getItemMeta().getPersistentDataContainer().has(NAVI_ITEM_KEY))
-                .forEach(itemStack -> {
-                    player.getInventory().remove(itemStack);
-                });
+        itemService.removeAllNaviItems(player);
 
         navigationService.stopNavigation(event.getPlayer());
     }

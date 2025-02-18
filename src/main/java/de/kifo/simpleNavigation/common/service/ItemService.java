@@ -10,6 +10,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -33,6 +34,14 @@ public class ItemService {
 
     public Builder getBuilder() {
         return new Builder();
+    }
+
+    public void removeAllNaviItems(Player player) {
+        stream(player.getInventory().getContents())
+                .filter(itemStack -> isNaviItem(itemStack))
+                .forEach(itemStack -> {
+                    player.getInventory().remove(itemStack);
+                });
     }
 
     public boolean isNaviItem(ItemStack itemStack) {

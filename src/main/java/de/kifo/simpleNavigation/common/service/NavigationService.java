@@ -25,9 +25,9 @@ public class NavigationService {
         Navigation navigation = null;
 
         switch (type) {
-            case COMPASS -> navigation = new CompassNavigation(player, location, type);
-            case BOSSBAR -> navigation = new BossbarNavigation(player, location, type);
-            case PARTICLES -> navigation = new ParticleNavigation(player, location, type);
+            case COMPASS -> navigation = new CompassNavigation(main, player, location, type);
+            case BOSSBAR -> navigation = new BossbarNavigation(main, player, location, type);
+            case PARTICLES -> navigation = new ParticleNavigation(main, player, location, type);
         }
 
         navigation.start();

@@ -1,5 +1,6 @@
 package de.kifo.simpleNavigation.common.navigation;
 
+import de.kifo.simpleNavigation.Main;
 import de.kifo.simpleNavigation.common.enums.NavigationType;
 import de.kifo.simpleNavigation.common.navigation.handle.Navigation;
 import org.bukkit.Location;
@@ -7,8 +8,8 @@ import org.bukkit.entity.Player;
 
 public class BossbarNavigation extends Navigation {
 
-    public BossbarNavigation(Player player, Location location, NavigationType type) {
-        super(player, location, type);
+    public BossbarNavigation(Main main, Player player, Location location, NavigationType type) {
+        super(main, player, location, type);
     }
 
     @Override
