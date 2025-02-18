@@ -5,11 +5,11 @@ import de.kifo.simpleNavigation.common.enums.NavigationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static de.kifo.simpleNavigation.Main.itemService;
@@ -30,6 +30,8 @@ public class NavigationService {
             case BOSSBAR -> startBossbarNavigation(player, location);
             case PARTICLES -> startParticleNavigation(player, location);
         }
+
+        navigations.add(new Navigation(player, type));
     }
 
     private void startCompassNavigation(Player player, Location location) {
@@ -49,6 +51,15 @@ public class NavigationService {
 
     private void startParticleNavigation(Player player, Location location) {
         //TODO Start task to update particle line
+    }
+
+    public boolean stopNavigation(Player player) {
+        Optional<Navigation> navigationOptional = navigations.stream()
+                .filter(navigation -> navigation.getPlayer().equals(player))
+                .findFirst();
+        navigationOptional.ifPresent(navigation -> navigations.remove(navigation));
+
+        return navigationOptional.isPresent();
     }
 
     @Data

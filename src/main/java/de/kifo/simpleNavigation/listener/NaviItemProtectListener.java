@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import static de.kifo.simpleNavigation.Main.itemService;
+import static de.kifo.simpleNavigation.Main.navigationService;
 import static de.kifo.simpleNavigation.common.service.ItemService.NAVI_ITEM_KEY;
 import static java.util.Arrays.stream;
 import static java.util.Objects.nonNull;
@@ -41,6 +42,7 @@ public class NaviItemProtectListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.getDrops().removeIf(itemStack -> itemService.isNaviItem(itemStack));
+        navigationService.stopNavigation(event.getPlayer());
     }
 
     @EventHandler
