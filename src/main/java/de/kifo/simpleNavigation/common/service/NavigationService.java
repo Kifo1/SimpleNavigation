@@ -1,15 +1,25 @@
 package de.kifo.simpleNavigation.common.service;
 
+import de.kifo.simpleNavigation.Main;
 import de.kifo.simpleNavigation.common.enums.NavigationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import static de.kifo.simpleNavigation.Main.itemService;
+import static org.bukkit.Material.COMPASS;
+import static org.bukkit.persistence.PersistentDataType.BOOLEAN;
+
+@Data
 public class NavigationService {
+
+    private final Main main;
 
     private Set<Navigation> navigations = new HashSet<>();
 
@@ -22,7 +32,14 @@ public class NavigationService {
     }
 
     private void startCompassNavigation(Player player, Location location) {
-        //TODO Add compass to player inventory and navigate player
+        ItemStack compass = itemService.getBuilder()
+                .material(COMPASS)
+                .displayName("Navi")
+                .itemData(new NamespacedKey(main, "navigationItem"), BOOLEAN, true)
+                .naviLocation(location)
+                .build();
+
+        player.getInventory().addItem(compass);
     }
 
     private void startBossbarNavigation(Player player, Location location) {

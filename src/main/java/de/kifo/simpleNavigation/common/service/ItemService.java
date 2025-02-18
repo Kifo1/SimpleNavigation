@@ -1,6 +1,8 @@
 package de.kifo.simpleNavigation.common.service;
 
+import de.kifo.simpleNavigation.Main;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.kyori.adventure.text.Component;
@@ -22,7 +24,10 @@ import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 import static org.bukkit.Material.AIR;
 
+@Data
 public class ItemService {
+
+    private final Main main;
 
     public Builder getBuilder() {
         return new Builder();

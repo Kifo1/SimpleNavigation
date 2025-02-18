@@ -2,6 +2,8 @@ package de.kifo.simpleNavigation;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
+import de.kifo.simpleNavigation.common.service.ItemService;
+import de.kifo.simpleNavigation.common.service.NavigationService;
 import lombok.AllArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,6 +13,9 @@ public final class Main extends JavaPlugin {
 
     private Injector injector;
 
+    public static ItemService itemService;
+    public static NavigationService navigationService;
+
     @Override
     public void onLoad() {
         this.injector = createInjector();
@@ -18,7 +23,8 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        itemService = new ItemService(this);
+        navigationService = new NavigationService(this);
     }
 
     @Override
