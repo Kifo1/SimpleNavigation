@@ -29,7 +29,7 @@ public class ItemService {
 
     private final Main main;
 
-    public static final NamespacedKey NAVI_ITEM_KEY = new NamespacedKey("simple-navigation", "navigationItem");
+    public static final NamespacedKey NAVI_ITEM_KEY = new NamespacedKey("simple_navigation", "navigation_item");
 
     public Builder getBuilder() {
         return new Builder();
