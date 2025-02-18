@@ -4,10 +4,12 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import de.kifo.simpleNavigation.common.service.ItemService;
 import de.kifo.simpleNavigation.common.service.NavigationService;
+import de.kifo.simpleNavigation.listener.NaviItemProtectListener;
 import lombok.AllArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static com.google.inject.Guice.createInjector;
+import static org.bukkit.Bukkit.getPluginManager;
 
 public final class Main extends JavaPlugin {
 
@@ -25,6 +27,8 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         itemService = new ItemService(this);
         navigationService = new NavigationService(this);
+
+        getPluginManager().registerEvents(injector.getInstance(NaviItemProtectListener.class), this);
     }
 
     @Override

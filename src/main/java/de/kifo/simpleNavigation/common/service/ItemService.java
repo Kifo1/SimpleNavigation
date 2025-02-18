@@ -35,6 +35,11 @@ public class ItemService {
         return new Builder();
     }
 
+    public boolean isNaviItem(ItemStack itemStack) {
+        return nonNull(itemStack) && nonNull(itemStack.getItemMeta())
+                && itemStack.getItemMeta().getPersistentDataContainer().has(NAVI_ITEM_KEY);
+    }
+
     @NoArgsConstructor
     public class Builder {
 
