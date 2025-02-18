@@ -28,6 +28,8 @@ public class NaviItemProtectListener implements Listener {
                 .forEach(itemStack -> {
                     player.getInventory().remove(itemStack);
                 });
+
+        navigationService.stopNavigation(event.getPlayer());
     }
 
     @EventHandler
