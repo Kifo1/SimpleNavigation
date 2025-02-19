@@ -36,7 +36,7 @@ public class CompassNavigation extends Navigation {
             }
         }, 20L, 20L).getTaskId();
 
-        this.setTaskId(taskId);
+        setTaskId(taskId);
     }
 
     @Override

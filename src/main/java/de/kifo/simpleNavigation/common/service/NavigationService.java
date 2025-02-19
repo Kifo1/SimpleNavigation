@@ -23,6 +23,7 @@ public class NavigationService {
 
     public void startPlayerNavigation(Player player, Location location, NavigationType type) {
         Navigation navigation = null;
+        location = location.toCenterLocation().add(0, 0.5D, 0);
 
         switch (type) {
             case COMPASS -> navigation = new CompassNavigation(main, player, location, type);
