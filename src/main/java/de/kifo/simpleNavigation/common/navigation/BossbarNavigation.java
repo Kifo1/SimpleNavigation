@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import static de.kifo.simpleNavigation.Main.navigationService;
+import static java.lang.Math.abs;
 import static org.bukkit.Bukkit.getScheduler;
 
 public class BossbarNavigation extends Navigation {
@@ -31,7 +32,7 @@ public class BossbarNavigation extends Navigation {
             float targetDirectionYaw = player.getLocation().clone().setDirection(targetDirection).getYaw();
             targetDirectionYaw = targetDirectionYaw > 180 ? -360 + targetDirectionYaw : targetDirectionYaw; //Change target direction yaw range from 0-360 to -180-180 (similar to player yaw range)
             playerYaw -= targetDirectionYaw; // Subtract target direction yaw from player yaw to create a yaw system with target direction at 0
-            float deltaYaw = playerYaw > 180 ? 360 - playerYaw : playerYaw > 0 ? playerYaw : playerYaw < -180 ? -360 - playerYaw : playerYaw;
+            float deltaYaw = abs(playerYaw > 180 ? 360 - playerYaw : playerYaw > 0 ? playerYaw : playerYaw < -180 ? -360 - playerYaw : playerYaw);
             System.out.println(deltaYaw);
 
             boolean isTargetLeftForPlayer = (playerYaw > 0 && playerYaw < 180) || playerYaw < -180;  //Check if player yaw is to the left or right side of 0 with -180/180 on the opposite site of 0
