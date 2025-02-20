@@ -40,7 +40,7 @@ public class ParticleNavigation extends Navigation {
                     player.spawnParticle(FLAME, particleLocation, 0, 0, 0, 0);
                 }
 
-                for (int d = 0; d <= 90; i++) {
+                for (int d = 0; d <= 90; d++) {
                     particleLocation = targetLocation.clone();
                     particleLocation.setX(targetLocation.getX() + cos(d));
                     particleLocation.setY(targetLocation.getY() + sin(d));
