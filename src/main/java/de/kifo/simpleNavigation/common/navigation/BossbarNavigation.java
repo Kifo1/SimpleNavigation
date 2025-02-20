@@ -3,17 +3,22 @@ package de.kifo.simpleNavigation.common.navigation;
 import de.kifo.simpleNavigation.Main;
 import de.kifo.simpleNavigation.common.enums.NavigationType;
 import de.kifo.simpleNavigation.common.navigation.handle.Navigation;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import static de.kifo.simpleNavigation.Main.navigationService;
 import static java.lang.Math.abs;
-import static net.kyori.adventure.text.Component.text;
+import static java.lang.Math.min;
+import static org.bukkit.Bukkit.createBossBar;
 import static org.bukkit.Bukkit.getScheduler;
+import static org.bukkit.boss.BarColor.PURPLE;
+import static org.bukkit.boss.BarStyle.SOLID;
 
 public class BossbarNavigation extends Navigation {
+
+    private BossBar bossBar;
 
     public BossbarNavigation(Main main, Player player, Location location, NavigationType type) {
         super(main, player, location, type);
@@ -21,10 +26,16 @@ public class BossbarNavigation extends Navigation {
 
     @Override
     public void start() {
-        int taskId = getScheduler().runTaskTimer(getMain(), () -> {
-            Player player = getPlayer();
-            Location targetLocation = getLocation();
+        Player player = getPlayer();
+        Location targetLocation = getLocation();
 
+        double startDistance = player.getLocation().distance(targetLocation);
+
+        this.bossBar = createBossBar("", PURPLE, SOLID);
+        this.bossBar.addPlayer(player);
+        this.bossBar.setProgress(1.0);
+
+        int taskId = getScheduler().runTaskTimer(getMain(), () -> {
             if (isTargetReached()) {
                 navigationService.stopNavigation(player);
             }
@@ -37,19 +48,24 @@ public class BossbarNavigation extends Navigation {
             float deltaYaw = abs(playerYaw > 180 ? 360 - playerYaw : playerYaw > 0 ? playerYaw : playerYaw < -180 ? -360 - playerYaw : playerYaw);
 
             boolean isTargetLeftForPlayer = (playerYaw > 0 && playerYaw < 180) || playerYaw < -180;  //Check if player yaw is to the left or right side of 0 with -180/180 on the opposite site of 0
-            player.sendMessage(getBossBarComponent((int) deltaYaw, isTargetLeftForPlayer));
+
+            this.bossBar.setTitle(getBossBarComponent((int) deltaYaw, isTargetLeftForPlayer));
+
+            double distance = player.getLocation().distance(targetLocation);
+            float progress = (float) (distance / startDistance);
+            this.bossBar.setProgress(min(progress, 1.0F));
         }, 10L, 10L).getTaskId();
 
         setTaskId(taskId);
     }
 
-    private Component getBossBarComponent(int deltaYaw, boolean isTargetLeft) {
+    private String getBossBarComponent(int deltaYaw, boolean isTargetLeft) {
         if (deltaYaw <= 10) {
-            return text("---------> <---------");
+            return "---------> <---------";
         }
 
         if (deltaYaw >= 100) {
-            return isTargetLeft ? text("---------- ---------<") : text(">--------- ----------");
+            return isTargetLeft ? "---------- ---------<" : ">--------- ----------";
         }
 
         String componentText = "";
@@ -69,11 +85,12 @@ public class BossbarNavigation extends Navigation {
             componentText += " ----------";
         }
 
-        return text(componentText);
+        return componentText;
     }
 
     @Override
     public void stop() {
+        this.bossBar.removeAll();
         getScheduler().cancelTask(getTaskId());
     }
 }
