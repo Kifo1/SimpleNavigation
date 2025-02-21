@@ -2,6 +2,7 @@ package de.kifo.simpleNavigation;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
+import de.kifo.simpleNavigation.command.NaviCommand;
 import de.kifo.simpleNavigation.common.service.ItemService;
 import de.kifo.simpleNavigation.common.service.NavigationService;
 import de.kifo.simpleNavigation.listener.NaviItemProtectListener;
@@ -27,6 +28,8 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         itemService = new ItemService(this);
         navigationService = new NavigationService(this);
+
+        getCommand("navi").setExecutor(injector.getInstance(NaviCommand.class));
 
         getPluginManager().registerEvents(injector.getInstance(NaviItemProtectListener.class), this);
     }
