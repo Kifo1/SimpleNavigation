@@ -41,10 +41,14 @@ public class NavigationService {
                 .findFirst();
 
         navigationOptional.ifPresent(navigation -> {
-            navigation.stop();
             navigations.remove(navigation);
+            navigation.stop();
         });
 
         return navigationOptional.isPresent();
+    }
+
+    public boolean isNavigationRunning(Player player) {
+        return navigations.stream().anyMatch(navigation -> navigation.getPlayer().equals(player));
     }
 }

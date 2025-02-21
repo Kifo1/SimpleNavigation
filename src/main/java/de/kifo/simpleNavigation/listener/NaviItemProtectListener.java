@@ -8,6 +8,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 
 import static de.kifo.simpleNavigation.Main.itemService;
@@ -48,6 +49,13 @@ public class NaviItemProtectListener implements Listener {
     @EventHandler
     public void onPlayerInteractEntity(PlayerItemFrameChangeEvent event) {
         if (itemService.isNaviItem(event.getItemStack())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
+        if (itemService.isNaviItem(event.getMainHandItem()) && navigationService.isNavigationRunning(event.getPlayer())) { //Check if the new hand item is a navi item
             event.setCancelled(true);
         }
     }
