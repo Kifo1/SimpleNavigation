@@ -8,15 +8,18 @@ import de.kifo.simpleNavigation.common.service.ItemService;
 import de.kifo.simpleNavigation.common.service.NavigationService;
 import de.kifo.simpleNavigation.listener.NaviItemProtectListener;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static com.google.inject.Guice.createInjector;
 import static org.bukkit.Bukkit.getPluginManager;
 
+@Getter
 public final class Main extends JavaPlugin {
 
     private Injector injector;
-    private Configuration config;
+
+    public static Configuration configuration;
 
     public static ItemService itemService;
     public static NavigationService navigationService;
@@ -25,7 +28,7 @@ public final class Main extends JavaPlugin {
     public void onLoad() {
         this.injector = createInjector();
 
-        this.config = new Configuration(this.getName(), "config");
+        configuration = new Configuration(this.getName(), "config");
     }
 
     @Override
