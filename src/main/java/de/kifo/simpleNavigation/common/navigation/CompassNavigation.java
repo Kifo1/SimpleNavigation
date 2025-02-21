@@ -6,15 +6,19 @@ import de.kifo.simpleNavigation.common.navigation.handle.Navigation;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import static de.kifo.simpleNavigation.Main.itemService;
 import static de.kifo.simpleNavigation.Main.navigationService;
 import static de.kifo.simpleNavigation.common.service.ItemService.NAVI_ITEM_KEY;
 import static org.bukkit.Bukkit.getScheduler;
 import static org.bukkit.Material.COMPASS;
+import static org.bukkit.inventory.EquipmentSlot.OFF_HAND;
 import static org.bukkit.persistence.PersistentDataType.BOOLEAN;
 
 public class CompassNavigation extends Navigation {
+
+    private ItemStack offHandItem;
 
     public CompassNavigation(Main main, Player player, Location location, NavigationType type) {
         super(main, player, location, type);
@@ -28,7 +32,11 @@ public class CompassNavigation extends Navigation {
                 .itemData(NAVI_ITEM_KEY, BOOLEAN, true)
                 .naviLocation(getLocation())
                 .build();
-        getPlayer().getInventory().addItem(compass); //TODO Check if inventory is full => Use specific slot for compass (e.g. off hand)
+
+        PlayerInventory playerInventory = getPlayer().getInventory();
+        this.offHandItem = playerInventory.getItem(OFF_HAND);
+        playerInventory.setItem(OFF_HAND, compass);
+        getPlayer().getInventory().addItem(compass);
 
         int taskId = getScheduler().runTaskTimer(getMain(), () -> {
             if (isTargetReached()) {
@@ -42,6 +50,7 @@ public class CompassNavigation extends Navigation {
     @Override
     public void stop() {
         itemService.removeAllNaviItems(getPlayer());
+        getPlayer().getInventory().setItem(OFF_HAND, this.offHandItem);
         getScheduler().cancelTask(getTaskId());
     }
 }
