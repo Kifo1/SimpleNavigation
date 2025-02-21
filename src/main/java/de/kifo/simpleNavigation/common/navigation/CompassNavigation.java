@@ -36,7 +36,6 @@ public class CompassNavigation extends Navigation {
         PlayerInventory playerInventory = getPlayer().getInventory();
         this.offHandItem = playerInventory.getItem(OFF_HAND);
         playerInventory.setItem(OFF_HAND, compass);
-        getPlayer().getInventory().addItem(compass);
 
         int taskId = getScheduler().runTaskTimer(getMain(), () -> {
             if (isTargetReached()) {
