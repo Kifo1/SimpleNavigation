@@ -1,5 +1,7 @@
 package de.kifo.simpleNavigation.command;
 
+import com.google.inject.Inject;
+import de.kifo.simpleNavigation.Main;
 import de.kifo.simpleNavigation.common.enums.NavigationType;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -13,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 import static com.google.common.collect.ImmutableList.of;
+import static de.kifo.simpleNavigation.Main.configuration;
 import static de.kifo.simpleNavigation.Main.navigationService;
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.stream;
@@ -23,11 +26,18 @@ import static org.bukkit.Bukkit.getOnlinePlayers;
 
 public class NaviCommand implements CommandExecutor, TabCompleter {
 
+    @Inject
+    private Main main;
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player player)) {
             commandSender.sendMessage(text("This command can only be used by players.", RED));
             return false;
+        }
+
+        if (!player.hasPermission(configuration.getString("permission.player.use"))) {
+            player.sendMessage(text("You do not have permission to use this command.", RED));
         }
 
         if (strings.length != 4) {
