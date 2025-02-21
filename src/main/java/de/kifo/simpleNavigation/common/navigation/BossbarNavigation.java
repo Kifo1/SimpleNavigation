@@ -54,7 +54,7 @@ public class BossbarNavigation extends Navigation {
             double distance = player.getLocation().distance(targetLocation);
             float progress = (float) (distance / startDistance);
             this.bossBar.setProgress(min(progress, 1.0F));
-        }, 10L, 10L).getTaskId();
+        }, 1L, 1L).getTaskId();
 
         setTaskId(taskId);
     }
