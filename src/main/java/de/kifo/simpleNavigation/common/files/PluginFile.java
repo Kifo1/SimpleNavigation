@@ -1,5 +1,6 @@
 package de.kifo.simpleNavigation.common.files;
 
+import lombok.Getter;
 import lombok.NonNull;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -56,6 +57,19 @@ public abstract class PluginFile {
 
     protected abstract HashMap<String, Object> getStandardSettings();
 
+    public Object getValue(String key, ValueType type) {
+        switch (type) {
+            case STRING: return yamlConfiguration.getString(key);
+            case STRING_LIST: return yamlConfiguration.getStringList(key);
+            case BOOLEAN: return yamlConfiguration.getBoolean(key);
+            case INTEGER: return yamlConfiguration.getInt(key);
+            case LONG: return yamlConfiguration.getLong(key);
+            case DOUBLE: return yamlConfiguration.getDouble(key);
+        }
+
+        return null;
+    }
+
     public void save() {
         try {
             yamlConfiguration.save(file);
@@ -68,7 +82,15 @@ public abstract class PluginFile {
         this.yamlConfiguration = loadConfiguration(file);
     }
 
-    public YamlConfiguration getConfig() {
-        return this.yamlConfiguration;
+    @Getter
+    private enum ValueType {
+
+        STRING,
+        STRING_LIST,
+        BOOLEAN,
+        INTEGER,
+        LONG,
+        DOUBLE
+
     }
 }
