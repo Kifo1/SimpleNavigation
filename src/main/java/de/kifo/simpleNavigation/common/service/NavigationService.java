@@ -31,6 +31,10 @@ public class NavigationService {
             case PARTICLES -> navigation = new ParticleNavigation(main, player, location, type);
         }
 
+        if (isNavigationRunning(player)) {
+            stopNavigation(player);
+        }
+
         navigation.start();
         navigations.add(navigation);
     }
