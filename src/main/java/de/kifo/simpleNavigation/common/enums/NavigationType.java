@@ -7,9 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum NavigationType {
 
-    COMPASS(false),
-    BOSSBAR(true),
-    PARTICLES(true);
+    COMPASS("Compass"),
+    BOSSBAR("Bossbar"),
+    PARTICLES("Particles");
 
-    private final boolean isSchedulesNavigation;
+    private final String displayName;
 }
