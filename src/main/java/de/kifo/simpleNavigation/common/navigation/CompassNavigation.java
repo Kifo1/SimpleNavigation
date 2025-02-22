@@ -20,8 +20,8 @@ public class CompassNavigation extends Navigation {
 
     private ItemStack offHandItem;
 
-    public CompassNavigation(Main main, Player player, Location location, NavigationType type) {
-        super(main, player, location, type);
+    public CompassNavigation(Main main, Player player, NavigationTarget target, NavigationType type) {
+        super(main, player, target, type);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class CompassNavigation extends Navigation {
                 .material(COMPASS)
                 .displayName("Navi")
                 .itemData(NAVI_ITEM_KEY, BOOLEAN, true)
-                .naviLocation(getLocation())
+                .naviLocation(getTarget().getTargetLocation())
                 .build();
 
         PlayerInventory playerInventory = getPlayer().getInventory();

@@ -21,14 +21,22 @@ public class NavigationService {
 
     private Set<Navigation> navigations = new HashSet<>();
 
+    public void startPlayerNavigation(Player player, Player target, NavigationType type) {
+        startPlayerNavigation(player, new Navigation.NavigationTarget(target), type);
+    }
+
     public void startPlayerNavigation(Player player, Location location, NavigationType type) {
-        Navigation navigation = null;
         location = location.toCenterLocation().subtract(0, 0.5D, 0);
+        startPlayerNavigation(player, new Navigation.NavigationTarget(location), type);
+    }
+
+    public void startPlayerNavigation(Player player, Navigation.NavigationTarget target, NavigationType type) {
+        Navigation navigation = null;
 
         switch (type) {
-            case COMPASS -> navigation = new CompassNavigation(main, player, location, type);
-            case BOSSBAR -> navigation = new BossbarNavigation(main, player, location, type);
-            case PARTICLES -> navigation = new ParticleNavigation(main, player, location, type);
+            case COMPASS -> navigation = new CompassNavigation(main, player, target, type);
+            case BOSSBAR -> navigation = new BossbarNavigation(main, player, target, type);
+            case PARTICLES -> navigation = new ParticleNavigation(main, player, target, type);
         }
 
         if (isNavigationRunning(player)) {

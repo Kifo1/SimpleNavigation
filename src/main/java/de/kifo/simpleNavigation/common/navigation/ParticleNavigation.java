@@ -17,8 +17,8 @@ import static org.bukkit.Particle.WAX_OFF;
 
 public class ParticleNavigation extends Navigation {
 
-    public ParticleNavigation(Main main, Player player, Location location, NavigationType type) {
-        super(main, player, location, type);
+    public ParticleNavigation(Main main, Player player, NavigationTarget target, NavigationType type) {
+        super(main, player, target, type);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ParticleNavigation extends Navigation {
         int taskId = getScheduler().runTaskTimerAsynchronously(getMain(), () -> {
             Player player = getPlayer();
             Location startLocation = player.getLocation().clone().add(0.0D, 1.0D, 0.0D);
-            Location targetLocation = getLocation();
+            Location targetLocation = getTarget().getTargetLocation();
 
             if (isTargetReached()) {
                 navigationService.stopNavigation(player);

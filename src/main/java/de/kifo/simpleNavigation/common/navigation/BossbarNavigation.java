@@ -20,14 +20,14 @@ public class BossbarNavigation extends Navigation {
 
     private BossBar bossBar;
 
-    public BossbarNavigation(Main main, Player player, Location location, NavigationType type) {
-        super(main, player, location, type);
+    public BossbarNavigation(Main main, Player player, NavigationTarget target, NavigationType type) {
+        super(main, player, target, type);
     }
 
     @Override
     public void start() {
         Player player = getPlayer();
-        Location targetLocation = getLocation();
+        Location targetLocation = getTarget().getTargetLocation();
 
         double startDistance = player.getLocation().distance(targetLocation);
 
