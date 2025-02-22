@@ -27,7 +27,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        this.injector = createInjector();
+        this.injector = createInjector(new RegistrationModule(this));
 
         configuration = new Configuration(this.getName(), "config");
     }
