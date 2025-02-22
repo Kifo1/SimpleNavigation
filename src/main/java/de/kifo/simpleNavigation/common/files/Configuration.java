@@ -15,7 +15,8 @@ public class Configuration extends PluginFile {
         HashMap<String, Object> settings = new HashMap<>();
 
         // Permissions
-        settings.put("permission.player.use", "navi.use");
+        settings.put("permission.command.navi", "navi.use");
+        settings.put("permission.command.reload", "navi.reload");
 
         return settings;
     }

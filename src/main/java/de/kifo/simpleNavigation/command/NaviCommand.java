@@ -36,7 +36,7 @@ public class NaviCommand implements CommandExecutor, TabCompleter {
             return false;
         }
 
-        if (!player.hasPermission(configuration.getString("permission.player.use"))) {
+        if (!player.hasPermission(configuration.getString("permission.command.navi"))) {
             player.sendMessage(text("You do not have permission to use this command.", RED));
             return false;
         }

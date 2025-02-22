@@ -3,6 +3,7 @@ package de.kifo.simpleNavigation;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import de.kifo.simpleNavigation.command.NaviCommand;
+import de.kifo.simpleNavigation.command.ReloadCommand;
 import de.kifo.simpleNavigation.common.files.Configuration;
 import de.kifo.simpleNavigation.common.service.ItemService;
 import de.kifo.simpleNavigation.common.service.NavigationService;
@@ -37,6 +38,7 @@ public final class Main extends JavaPlugin {
         navigationService = new NavigationService(this);
 
         getCommand("navi").setExecutor(injector.getInstance(NaviCommand.class));
+        getCommand("reload").setExecutor(injector.getInstance(ReloadCommand.class));
 
         getPluginManager().registerEvents(injector.getInstance(NaviItemProtectListener.class), this);
     }
