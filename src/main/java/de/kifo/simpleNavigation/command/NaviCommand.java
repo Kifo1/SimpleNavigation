@@ -19,6 +19,7 @@ import static java.lang.Integer.parseInt;
 import static java.util.Arrays.stream;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
+import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static org.bukkit.Bukkit.getOnlinePlayers;
 
@@ -36,29 +37,39 @@ public class NaviCommand implements CommandExecutor, TabCompleter {
             return false;
         }
 
-        if (strings.length != 4) {
-            sendUsage(commandSender);
-            return false;
-        }
+        switch (strings.length) {
+            case 0, 1 -> {
+                if (strings.length == 1 && !strings[0].equalsIgnoreCase("stop")) {
+                    sendUsage(player);
+                }
+                if (navigationService.stopNavigation(player)) {
+                    player.sendMessage(text("You have stopped your navigation.", GREEN));
+                } else {
+                    player.sendMessage(text("Navigation is not running.", RED));
+                }
+            }
+            case 4 -> {
+                int x, y, z;
+                try {
+                    x = parseInt(strings[1]);
+                    y = parseInt(strings[2]);
+                    z = parseInt(strings[3]);
+                } catch (Exception e) {
+                    player.sendMessage(text("Coordinates have to be numbers.", RED));
+                    return false;
+                }
 
-        int x, y, z;
-        try {
-            x = parseInt(strings[1]);
-            y = parseInt(strings[2]);
-            z = parseInt(strings[3]);
-        } catch (Exception e) {
-            player.sendMessage(text("Coordinates have to be numbers.", RED));
-            return false;
+                stream(NavigationType.values())
+                        .filter(type -> type.getDisplayName().equalsIgnoreCase(strings[0]))
+                        .findFirst()
+                        .ifPresentOrElse((type) -> {
+                            navigationService.startPlayerNavigation(player, new Location(player.getWorld(), x, y, z), type);
+                        }, () -> {
+                            player.sendMessage(text("Navigation type couldn't be found.", RED));
+                        });
+            }
+            default -> sendUsage(player);
         }
-
-        stream(NavigationType.values())
-                .filter(type -> type.getDisplayName().equalsIgnoreCase(strings[0]))
-                .findFirst()
-                .ifPresentOrElse((type) -> {
-                    navigationService.startPlayerNavigation(player, new Location(player.getWorld(), x, y, z), type);
-                }, () -> {
-                    player.sendMessage(text("Navigation type couldn't be found.", RED));
-                });
 
         return true;
     }
@@ -76,7 +87,7 @@ public class NaviCommand implements CommandExecutor, TabCompleter {
         return options;
     }
 
-    private void sendUsage(CommandSender commandSender) {
-        commandSender.sendMessage(text("Use: /navi <type> <x> <y> <z>", GRAY));
+    private void sendUsage(Player player) {
+        player.sendMessage(text("Use: /navi <type> <x> <y> <z>", GRAY));
     }
 }
