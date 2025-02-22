@@ -13,7 +13,7 @@ import static de.kifo.simpleNavigation.Main.navigationService;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static org.bukkit.Bukkit.getScheduler;
-import static org.bukkit.Particle.FLAME;
+import static org.bukkit.Particle.WAX_OFF;
 
 public class ParticleNavigation extends Navigation {
 
@@ -46,14 +46,14 @@ public class ParticleNavigation extends Navigation {
 
                 double distance = targetLocation.distance(startLocation);
                 if (particleLocation.distance(startLocation) <= distance) {
-                    player.spawnParticle(FLAME, particleLocation, 0, 0, 0, 0);
+                    player.spawnParticle(WAX_OFF, particleLocation, 0, 0, 0, 0);
                 }
 
                 for (int d = 0; d <= 90; d++) {
                     particleLocation = targetLocation.clone();
                     particleLocation.setX(targetLocation.getX() + cos(d));
                     particleLocation.setZ(targetLocation.getZ() + sin(d));
-                    player.spawnParticle(FLAME, particleLocation, 0, 0, 0, 0);
+                    player.spawnParticle(WAX_OFF, particleLocation, 0, 0, 0, 0);
                 }
             }
         }, 1L, 1L).getTaskId();
