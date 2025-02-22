@@ -1,7 +1,5 @@
 package de.kifo.simpleNavigation.command;
 
-import com.google.inject.Inject;
-import de.kifo.simpleNavigation.Main;
 import de.kifo.simpleNavigation.common.enums.NavigationType;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -25,9 +23,6 @@ import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static org.bukkit.Bukkit.getOnlinePlayers;
 
 public class NaviCommand implements CommandExecutor, TabCompleter {
-
-    @Inject
-    private Main main;
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {

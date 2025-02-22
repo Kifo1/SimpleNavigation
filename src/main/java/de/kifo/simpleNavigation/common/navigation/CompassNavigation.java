@@ -41,7 +41,7 @@ public class CompassNavigation extends Navigation {
             if (isTargetReached()) {
                 navigationService.stopNavigation(getPlayer());
             }
-        }, 20L, 20L).getTaskId();
+        }, 1L, 1L).getTaskId();
 
         setTaskId(taskId);
     }

@@ -18,6 +18,9 @@ public class Configuration extends PluginFile {
         settings.put("permission.command.navi", "navi.use");
         settings.put("permission.command.reload", "navi.reload");
 
+        // Settings
+        settings.put("settings.message.distanceleft", true);
+
         return settings;
     }
 }

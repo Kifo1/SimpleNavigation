@@ -7,6 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import static de.kifo.simpleNavigation.Main.configuration;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+
 @Data
 @RequiredArgsConstructor
 public abstract class Navigation {
@@ -22,6 +26,12 @@ public abstract class Navigation {
     public abstract void stop();
 
     public boolean isTargetReached() {
-        return player.getLocation().distance(location) < 2.0D;
+        double distance = player.getLocation().distance(location);
+
+        if (configuration.getBoolean("settings.message.distanceleft")) {
+            player.sendActionBar(text((int) distance + " blocks away.", GOLD));
+        }
+
+        return distance < 2.0D;
     }
 }

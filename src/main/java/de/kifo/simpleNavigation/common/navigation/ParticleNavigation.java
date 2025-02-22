@@ -7,6 +7,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static de.kifo.simpleNavigation.Main.navigationService;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -21,6 +23,8 @@ public class ParticleNavigation extends Navigation {
 
     @Override
     public void start() {
+        AtomicInteger scheduler = new AtomicInteger();
+
         int taskId = getScheduler().runTaskTimerAsynchronously(getMain(), () -> {
             Player player = getPlayer();
             Location startLocation = player.getLocation().clone().add(0.0D, 1.0D, 0.0D);
@@ -28,6 +32,11 @@ public class ParticleNavigation extends Navigation {
 
             if (isTargetReached()) {
                 navigationService.stopNavigation(player);
+                return;
+            }
+
+            scheduler.getAndIncrement();
+            if (scheduler.get() % 10 != 0) { //Send particles only 2 times per second
                 return;
             }
 
@@ -47,7 +56,7 @@ public class ParticleNavigation extends Navigation {
                     player.spawnParticle(FLAME, particleLocation, 0, 0, 0, 0);
                 }
             }
-        }, 10L, 10L).getTaskId();
+        }, 1L, 1L).getTaskId();
 
         setTaskId(taskId);
     }
