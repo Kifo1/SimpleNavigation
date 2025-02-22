@@ -13,6 +13,8 @@ import static de.kifo.simpleNavigation.Main.navigationService;
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.stream;
 import static java.util.Objects.isNull;
+import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 import static org.bukkit.Bukkit.getPlayer;
 
 public class ConsoleNaviCommand implements CommandExecutor {
@@ -56,6 +58,6 @@ public class ConsoleNaviCommand implements CommandExecutor {
     }
 
     private void sendUsage(CommandSender commandSender) {
-        commandSender.sendMessage("Use: /consolenavi <type> <x> <y> <z> <player>");
+        commandSender.sendMessage(text("Use: /consolenavi <type> <x> <y> <z> <player>", GRAY));
     }
 }

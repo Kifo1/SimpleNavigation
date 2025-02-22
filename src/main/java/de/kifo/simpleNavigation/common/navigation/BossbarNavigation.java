@@ -27,15 +27,16 @@ public class BossbarNavigation extends Navigation {
     @Override
     public void start() {
         Player player = getPlayer();
-        Location targetLocation = getTarget().getTargetLocation();
 
-        double startDistance = player.getLocation().distance(targetLocation);
+        double startDistance = player.getLocation().distance(getTarget().getTargetLocation());
 
         this.bossBar = createBossBar("", PURPLE, SOLID);
         this.bossBar.addPlayer(player);
         this.bossBar.setProgress(1.0);
 
         int taskId = getScheduler().runTaskTimerAsynchronously(getMain(), () -> {
+            Location targetLocation = getTarget().getTargetLocation();
+
             if (isTargetReached()) {
                 navigationService.stopNavigation(player);
             }
