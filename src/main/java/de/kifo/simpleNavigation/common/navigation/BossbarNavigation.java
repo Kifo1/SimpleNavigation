@@ -8,7 +8,6 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import static de.kifo.simpleNavigation.Main.navigationService;
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
 import static org.bukkit.Bukkit.createBossBar;

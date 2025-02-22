@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import static de.kifo.simpleNavigation.Main.itemService;
-import static de.kifo.simpleNavigation.Main.navigationService;
 import static de.kifo.simpleNavigation.common.service.ItemService.NAVI_ITEM_KEY;
 import static org.bukkit.Bukkit.getScheduler;
 import static org.bukkit.Material.COMPASS;

@@ -9,7 +9,6 @@ import org.bukkit.util.Vector;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static de.kifo.simpleNavigation.Main.navigationService;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static org.bukkit.Bukkit.getScheduler;
