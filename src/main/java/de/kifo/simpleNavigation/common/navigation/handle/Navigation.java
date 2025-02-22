@@ -10,9 +10,12 @@ import org.bukkit.entity.Player;
 
 import static de.kifo.simpleNavigation.Main.configuration;
 import static de.kifo.simpleNavigation.Main.navigationService;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 import static java.util.Objects.nonNull;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
+import static org.bukkit.Particle.WAX_OFF;
 
 @Data
 @RequiredArgsConstructor
@@ -29,15 +32,23 @@ public abstract class Navigation {
     public abstract void stop();
 
     public void runNavigationChecks() {
-        double distance = player.getLocation().distance(target.getTargetLocation());
+        Location targetLocation = target.getTargetLocation();
+        double distance = player.getLocation().distance(targetLocation);
 
-        if (!target.getTargetPlayer().isOnline() || distance < 2.0D) {
+        if ((nonNull(target.getTargetPlayer()) && !target.getTargetPlayer().isOnline()) || distance < 2.0D) {
             navigationService.stopNavigation(player);
             return;
         }
 
         if (configuration.getBoolean("settings.message.distanceleft")) {
             player.sendActionBar(text((int) distance + " blocks away.", GOLD));
+        }
+
+        for (int d = 0; d <= 90; d++) {
+            Location particleLocation = targetLocation.clone();
+            particleLocation.setX(targetLocation.getX() + cos(d));
+            particleLocation.setZ(targetLocation.getZ() + sin(d));
+            player.spawnParticle(WAX_OFF, particleLocation, 0, 0, 0, 0);
         }
     }
 

@@ -9,8 +9,6 @@ import org.bukkit.util.Vector;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
 import static org.bukkit.Bukkit.getScheduler;
 import static org.bukkit.Particle.WAX_OFF;
 
@@ -42,13 +40,6 @@ public class ParticleNavigation extends Navigation {
 
                 double distance = targetLocation.distance(startLocation);
                 if (particleLocation.distance(startLocation) <= distance) {
-                    player.spawnParticle(WAX_OFF, particleLocation, 0, 0, 0, 0);
-                }
-
-                for (int d = 0; d <= 90; d++) {
-                    particleLocation = targetLocation.clone();
-                    particleLocation.setX(targetLocation.getX() + cos(d));
-                    particleLocation.setZ(targetLocation.getZ() + sin(d));
                     player.spawnParticle(WAX_OFF, particleLocation, 0, 0, 0, 0);
                 }
             }

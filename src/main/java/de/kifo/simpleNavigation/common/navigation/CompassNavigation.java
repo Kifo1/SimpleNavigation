@@ -44,8 +44,8 @@ public class CompassNavigation extends Navigation {
 
     @Override
     public void stop() {
-        itemService.removeAllNaviItems(getPlayer());
         getPlayer().getInventory().setItem(OFF_HAND, this.offHandItem);
+        itemService.removeAllNaviItems(getPlayer());
         getScheduler().cancelTask(getTaskId());
     }
 }
