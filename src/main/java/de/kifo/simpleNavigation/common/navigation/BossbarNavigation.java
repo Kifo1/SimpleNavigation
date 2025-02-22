@@ -35,7 +35,7 @@ public class BossbarNavigation extends Navigation {
         this.bossBar.addPlayer(player);
         this.bossBar.setProgress(1.0);
 
-        int taskId = getScheduler().runTaskTimer(getMain(), () -> {
+        int taskId = getScheduler().runTaskTimerAsynchronously(getMain(), () -> {
             if (isTargetReached()) {
                 navigationService.stopNavigation(player);
             }
