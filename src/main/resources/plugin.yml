@@ -4,5 +4,6 @@ main: de.kifo.simpleNavigation.Main
 api-version: '1.21'
 
 commands:
+  consolenavi:
   navi:
   reload:
