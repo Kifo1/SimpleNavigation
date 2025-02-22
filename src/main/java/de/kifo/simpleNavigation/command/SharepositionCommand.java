@@ -53,12 +53,15 @@ public class SharepositionCommand implements CommandExecutor, TabCompleter {
 
                     if (requester.isOnline()) {
                         navigationService.startPlayerNavigation(player, requester, BOSSBAR); //TODO Add ability to choose standard navigation type
+                    } else {
+                        player.sendMessage(text("The player needs to be online.", RED));
                     }
 
                     return true;
                 }
 
-                if (strings[0].length() == 36) { // UUID length
+                if (strings[0].length() == 36) {
+                    player.sendMessage(text("The share request is no longer active.", RED));
                     return false;
                 }
 
