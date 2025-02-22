@@ -26,14 +26,11 @@ public class ParticleNavigation extends Navigation {
         AtomicInteger scheduler = new AtomicInteger();
 
         int taskId = getScheduler().runTaskTimerAsynchronously(getMain(), () -> {
+            runNavigationChecks();
+
             Player player = getPlayer();
             Location startLocation = player.getLocation().clone().add(0.0D, 1.0D, 0.0D);
             Location targetLocation = getTarget().getTargetLocation();
-
-            if (isTargetReached()) {
-                navigationService.stopNavigation(player);
-                return;
-            }
 
             scheduler.getAndIncrement();
             if (scheduler.get() % 10 != 0) { //Send particles only 2 times per second

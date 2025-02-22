@@ -3,7 +3,6 @@ package de.kifo.simpleNavigation.common.navigation;
 import de.kifo.simpleNavigation.Main;
 import de.kifo.simpleNavigation.common.enums.NavigationType;
 import de.kifo.simpleNavigation.common.navigation.handle.Navigation;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -38,9 +37,7 @@ public class CompassNavigation extends Navigation {
         playerInventory.setItem(OFF_HAND, compass);
 
         int taskId = getScheduler().runTaskTimerAsynchronously(getMain(), () -> {
-            if (isTargetReached()) {
-                navigationService.stopNavigation(getPlayer());
-            }
+            runNavigationChecks();
         }, 1L, 1L).getTaskId();
 
         setTaskId(taskId);

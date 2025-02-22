@@ -1,5 +1,7 @@
 package de.kifo.simpleNavigation.command;
 
+import com.google.inject.Inject;
+import de.kifo.simpleNavigation.Main;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,11 +14,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static de.kifo.simpleNavigation.Main.configuration;
 import static de.kifo.simpleNavigation.Main.navigationService;
 import static de.kifo.simpleNavigation.common.enums.NavigationType.BOSSBAR;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static java.util.UUID.randomUUID;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.event.ClickEvent.Action.RUN_COMMAND;
@@ -29,10 +33,14 @@ import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 import static org.bukkit.Bukkit.getOnlinePlayers;
 import static org.bukkit.Bukkit.getPlayer;
+import static org.bukkit.Bukkit.getScheduler;
 
 public class SharepositionCommand implements CommandExecutor, TabCompleter {
 
-    private Map<String, Player> openShareRequests = new HashMap<>();
+    @Inject
+    private Main main;
+
+    private Map<String, UUID> openShareRequests = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
@@ -49,9 +57,9 @@ public class SharepositionCommand implements CommandExecutor, TabCompleter {
         switch (strings.length) {
             case 1 -> {
                 if (openShareRequests.containsKey(strings[0])) {
-                    Player requester = openShareRequests.get(strings[0]);
+                    Player requester = getPlayer(openShareRequests.get(strings[0]));
 
-                    if (requester.isOnline()) {
+                    if (nonNull(requester) && requester.isOnline()) {
                         navigationService.startPlayerNavigation(player, requester, BOSSBAR); //TODO Add ability to choose standard navigation type
                     } else {
                         player.sendMessage(text("The player needs to be online.", RED));
@@ -72,7 +80,8 @@ public class SharepositionCommand implements CommandExecutor, TabCompleter {
                 }
 
                 String shareId = randomUUID().toString();
-                openShareRequests.put(shareId, player);
+                openShareRequests.put(shareId, player.getUniqueId());
+                getScheduler().runTaskLater(main, () -> openShareRequests.remove(shareId), 5 * 60 * 20L); //Remove request after 5 minutes
 
                 Component component = text(player.getName() + " wants to share their position.", GOLD)
                         .appendSpace()

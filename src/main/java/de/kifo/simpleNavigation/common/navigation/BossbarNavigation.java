@@ -35,11 +35,9 @@ public class BossbarNavigation extends Navigation {
         this.bossBar.setProgress(1.0);
 
         int taskId = getScheduler().runTaskTimerAsynchronously(getMain(), () -> {
-            Location targetLocation = getTarget().getTargetLocation();
+            runNavigationChecks();
 
-            if (isTargetReached()) {
-                navigationService.stopNavigation(player);
-            }
+            Location targetLocation = getTarget().getTargetLocation();
 
             Vector targetDirection = targetLocation.toVector().setY(0).subtract(player.getLocation().toVector().setY(0));
             float playerYaw = player.getLocation().getYaw();
