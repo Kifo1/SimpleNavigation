@@ -7,6 +7,7 @@ import de.kifo.simpleNavigation.command.NaviCommand;
 import de.kifo.simpleNavigation.command.ReloadCommand;
 import de.kifo.simpleNavigation.command.SharepositionCommand;
 import de.kifo.simpleNavigation.common.files.Configuration;
+import de.kifo.simpleNavigation.common.files.database.Database;
 import de.kifo.simpleNavigation.common.service.ItemService;
 import de.kifo.simpleNavigation.common.service.NavigationService;
 import de.kifo.simpleNavigation.listener.NaviItemProtectListener;
@@ -23,6 +24,7 @@ public final class Main extends JavaPlugin {
     private Injector injector;
 
     public static Configuration configuration;
+    public static Database database;
 
     public static ItemService itemService;
     public static NavigationService navigationService;
@@ -32,6 +34,7 @@ public final class Main extends JavaPlugin {
         this.injector = createInjector(new RegistrationModule(this));
 
         configuration = new Configuration(this.getName(), "config");
+        database = new Database(this.getName(), "data");
     }
 
     @Override
