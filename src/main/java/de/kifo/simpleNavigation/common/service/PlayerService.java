@@ -15,7 +15,7 @@ public class PlayerService {
 
     private final Main main;
 
-    private Set<NaviPlayer> naviPlayers = new HashSet();
+    private static Set<NaviPlayer> naviPlayers = new HashSet();
 
     public void loadPlayer(Player player) {
         NaviPlayer naviPlayer = database.loadNaviPlayer(player.getUniqueId());
@@ -28,7 +28,7 @@ public class PlayerService {
         naviPlayers.remove(naviPlayer);
     }
 
-    public NaviPlayer getNaviPlayer(Player player) {
+    public static NaviPlayer getNaviPlayer(Player player) {
         return naviPlayers.stream()
                 .filter(naviPlayer -> naviPlayer.getUuid().equals(player.getUniqueId()))
                 .findFirst()
