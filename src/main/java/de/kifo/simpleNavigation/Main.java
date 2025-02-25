@@ -13,6 +13,7 @@ import de.kifo.simpleNavigation.common.service.NavigationService;
 import de.kifo.simpleNavigation.common.service.PlayerService;
 import de.kifo.simpleNavigation.listener.NaviItemProtectListener;
 import de.kifo.simpleNavigation.listener.PlayerJoinListener;
+import de.kifo.simpleNavigation.listener.PlayerQuitListener;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -53,6 +54,7 @@ public final class Main extends JavaPlugin {
 
         getPluginManager().registerEvents(injector.getInstance(NaviItemProtectListener.class), this);
         getPluginManager().registerEvents(injector.getInstance(PlayerJoinListener.class), this);
+        getPluginManager().registerEvents(injector.getInstance(PlayerQuitListener.class), this);
     }
 
     @Override
