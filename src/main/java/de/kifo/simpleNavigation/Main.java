@@ -52,7 +52,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        database.closeConnection();
     }
 
 
