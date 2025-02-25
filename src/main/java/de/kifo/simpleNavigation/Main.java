@@ -10,6 +10,7 @@ import de.kifo.simpleNavigation.common.files.Configuration;
 import de.kifo.simpleNavigation.common.files.database.Database;
 import de.kifo.simpleNavigation.common.service.ItemService;
 import de.kifo.simpleNavigation.common.service.NavigationService;
+import de.kifo.simpleNavigation.common.service.PlayerService;
 import de.kifo.simpleNavigation.listener.NaviItemProtectListener;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public final class Main extends JavaPlugin {
 
     public static ItemService itemService;
     public static NavigationService navigationService;
+    public static PlayerService playerService;
 
     @Override
     public void onLoad() {
@@ -41,6 +43,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         itemService = new ItemService(this);
         navigationService = new NavigationService(this);
+        playerService = new PlayerService(this);
 
         getCommand("consolenavi").setExecutor(injector.getInstance(ConsoleNaviCommand.class));
         getCommand("navi").setExecutor(injector.getInstance(NaviCommand.class));
