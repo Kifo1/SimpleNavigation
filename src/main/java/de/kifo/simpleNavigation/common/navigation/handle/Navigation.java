@@ -12,6 +12,7 @@ import static de.kifo.simpleNavigation.Main.configuration;
 import static de.kifo.simpleNavigation.Main.navigationService;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
@@ -44,11 +45,14 @@ public abstract class Navigation {
             player.sendActionBar(text((int) distance + " blocks away.", GOLD));
         }
 
-        for (int d = 0; d <= 90; d++) {
-            Location particleLocation = targetLocation.clone();
-            particleLocation.setX(targetLocation.getX() + cos(d));
-            particleLocation.setZ(targetLocation.getZ() + sin(d));
-            player.spawnParticle(WAX_OFF, particleLocation, 0, 0, 0, 0);
+        if (isNull(target.targetPlayer)) {
+            for (int d = 0; d <= 90; d++) {
+                Location particleLocation = targetLocation.clone();
+                particleLocation.setX(targetLocation.getX() + cos(d));
+                particleLocation.setZ(targetLocation.getZ() + sin(d));
+                player.spawnParticle(WAX_OFF, particleLocation, 0, 0, 0, 0);
+
+            }
         }
     }
 
