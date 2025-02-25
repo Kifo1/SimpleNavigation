@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import de.kifo.simpleNavigation.command.ConsoleNaviCommand;
 import de.kifo.simpleNavigation.command.NaviCommand;
 import de.kifo.simpleNavigation.command.ReloadCommand;
+import de.kifo.simpleNavigation.command.SettingsCommand;
 import de.kifo.simpleNavigation.command.SharepositionCommand;
 import de.kifo.simpleNavigation.common.files.Configuration;
 import de.kifo.simpleNavigation.common.files.database.Database;
@@ -51,6 +52,7 @@ public final class Main extends JavaPlugin {
         getCommand("consolenavi").setExecutor(injector.getInstance(ConsoleNaviCommand.class));
         getCommand("navi").setExecutor(injector.getInstance(NaviCommand.class));
         getCommand("reload").setExecutor(injector.getInstance(ReloadCommand.class));
+        getCommand("settings").setExecutor(injector.getInstance(SettingsCommand.class));
         getCommand("shareposition").setExecutor(injector.getInstance(SharepositionCommand.class));
 
         getPluginManager().registerEvents(injector.getInstance(NaviItemProtectListener.class), this);
