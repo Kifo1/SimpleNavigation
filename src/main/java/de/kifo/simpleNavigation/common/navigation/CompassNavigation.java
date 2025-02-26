@@ -6,6 +6,7 @@ import de.kifo.simpleNavigation.common.navigation.handle.Navigation;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.CompassMeta;
 
 import static de.kifo.simpleNavigation.Main.itemService;
 import static de.kifo.simpleNavigation.common.service.ItemService.NAVI_ITEM_KEY;
@@ -17,6 +18,7 @@ import static org.bukkit.persistence.PersistentDataType.BOOLEAN;
 public class CompassNavigation extends Navigation {
 
     private ItemStack offHandItem;
+    private ItemStack compassItem;
 
     public CompassNavigation(Main main, Player player, NavigationTarget target, NavigationType type) {
         super(main, player, target, type);
@@ -24,7 +26,7 @@ public class CompassNavigation extends Navigation {
 
     @Override
     public void start() {
-        ItemStack compass = itemService.getBuilder()
+        compassItem = itemService.getBuilder()
                 .material(COMPASS)
                 .displayName("Navi")
                 .itemData(NAVI_ITEM_KEY, BOOLEAN, true)
@@ -33,10 +35,15 @@ public class CompassNavigation extends Navigation {
 
         PlayerInventory playerInventory = getPlayer().getInventory();
         this.offHandItem = playerInventory.getItem(OFF_HAND);
-        playerInventory.setItem(OFF_HAND, compass);
+        playerInventory.setItem(OFF_HAND, compassItem);
 
-        int taskId = getScheduler().runTaskTimerAsynchronously(getMain(), () -> {
+        int taskId = getScheduler().runTaskTimer(getMain(), () -> {
             runNavigationChecks();
+
+            CompassMeta compassMeta = (CompassMeta) compassItem.getItemMeta();
+            compassMeta.setLodestone(getTarget().getTargetLocation());
+            compassMeta.setLodestoneTracked(false);
+            playerInventory.getItemInOffHand().setItemMeta(compassMeta);
         }, 1L, 1L).getTaskId();
 
         setTaskId(taskId);
@@ -44,8 +51,8 @@ public class CompassNavigation extends Navigation {
 
     @Override
     public void stop() {
+        getScheduler().cancelTask(getTaskId());
         getPlayer().getInventory().setItem(OFF_HAND, this.offHandItem);
         itemService.removeAllNaviItems(getPlayer());
-        getScheduler().cancelTask(getTaskId());
     }
 }
