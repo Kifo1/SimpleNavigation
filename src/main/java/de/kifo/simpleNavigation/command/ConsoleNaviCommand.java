@@ -1,6 +1,5 @@
 package de.kifo.simpleNavigation.command;
 
-import de.kifo.simpleNavigation.common.enums.NavigationType;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static de.kifo.simpleNavigation.Main.navigationService;
+import static de.kifo.simpleNavigation.common.service.PlayerService.getNaviPlayer;
 import static java.lang.Integer.parseInt;
-import static java.util.Arrays.stream;
 import static java.util.Objects.isNull;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
@@ -26,38 +25,32 @@ public class ConsoleNaviCommand implements CommandExecutor {
             return false;
         }
 
-        if (strings.length != 5) {
+        if (strings.length != 4) {
             sendUsage(commandSender);
             return false;
         }
 
         int x, y, z;
         try {
-            x = parseInt(strings[1]);
-            y = parseInt(strings[2]);
-            z = parseInt(strings[3]);
+            x = parseInt(strings[0]);
+            y = parseInt(strings[1]);
+            z = parseInt(strings[2]);
         } catch (Exception e) {
             commandSender.sendMessage("Coordinates have to be numbers.");
             return false;
         }
 
-        Player target = getPlayer(strings[4]);
+        Player target = getPlayer(strings[3]);
         if (isNull(target)) {
-            commandSender.sendMessage("Player \"" + strings[4] + "\" couldn't be found.");
+            commandSender.sendMessage("Player \"" + strings[3] + "\" couldn't be found.");
             return false;
         }
 
-        stream(NavigationType.values())
-                .filter(type -> type.getDisplayName().equalsIgnoreCase(strings[0]))
-                .findFirst()
-                .ifPresentOrElse((type) -> {
-                    navigationService.startPlayerNavigation(target, new Location(target.getWorld(), x, y, z), type);
-                }, () -> commandSender.sendMessage("Navigation type couldn't be found."));
-
+        navigationService.startPlayerNavigation(getNaviPlayer(target), new Location(target.getWorld(), x, y, z));
         return true;
     }
 
     private void sendUsage(CommandSender commandSender) {
-        commandSender.sendMessage(text("Use: /consolenavi <type> <x> <y> <z> <player>", GRAY));
+        commandSender.sendMessage(text("Use: /consolenavi <x> <y> <z> <player>", GRAY));
     }
 }

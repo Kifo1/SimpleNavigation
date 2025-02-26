@@ -18,7 +18,7 @@ import java.util.UUID;
 
 import static de.kifo.simpleNavigation.Main.configuration;
 import static de.kifo.simpleNavigation.Main.navigationService;
-import static de.kifo.simpleNavigation.common.enums.NavigationType.BOSSBAR;
+import static de.kifo.simpleNavigation.common.service.PlayerService.getNaviPlayer;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.UUID.randomUUID;
@@ -60,7 +60,7 @@ public class SharepositionCommand implements CommandExecutor, TabCompleter {
                     Player requester = getPlayer(openShareRequests.get(strings[0]));
 
                     if (nonNull(requester) && requester.isOnline()) {
-                        navigationService.startPlayerNavigation(player, requester, BOSSBAR); //TODO Add ability to choose standard navigation type
+                        navigationService.startPlayerNavigation(getNaviPlayer(player), requester);
                     } else {
                         player.sendMessage(text("The player needs to be online.", RED));
                     }

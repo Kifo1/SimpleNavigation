@@ -18,6 +18,7 @@ public class Configuration extends PluginFile {
         settings.put("permission.command.navi", "navi.use");
         settings.put("permission.command.reload", "navi.reload");
         settings.put("permission.command.shareposition", "navi.shareposition");
+        settings.put("permission.command.settings", "navi.settings");
 
         // Settings
         settings.put("settings.message.distanceleft", true);

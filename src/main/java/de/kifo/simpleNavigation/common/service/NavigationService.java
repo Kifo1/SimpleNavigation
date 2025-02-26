@@ -2,6 +2,7 @@ package de.kifo.simpleNavigation.common.service;
 
 import de.kifo.simpleNavigation.Main;
 import de.kifo.simpleNavigation.common.enums.NavigationType;
+import de.kifo.simpleNavigation.common.files.database.entities.NaviPlayer;
 import de.kifo.simpleNavigation.common.navigation.BossbarNavigation;
 import de.kifo.simpleNavigation.common.navigation.CompassNavigation;
 import de.kifo.simpleNavigation.common.navigation.ParticleNavigation;
@@ -14,12 +15,22 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.bukkit.Bukkit.getPlayer;
+
 @Data
 public class NavigationService {
 
     private final Main main;
 
     private Set<Navigation> navigations = new HashSet<>();
+
+    public void startPlayerNavigation(NaviPlayer naviPlayer, Player target) {
+        startPlayerNavigation(getPlayer(naviPlayer.getUuid()), new Navigation.NavigationTarget(target), naviPlayer.getPreferredNavigationType());
+    }
+
+    public void startPlayerNavigation(NaviPlayer naviPlayer, Location target) {
+        startPlayerNavigation(getPlayer(naviPlayer.getUuid()), target, naviPlayer.getPreferredNavigationType());
+    }
 
     public void startPlayerNavigation(Player player, Player target, NavigationType type) {
         startPlayerNavigation(player, new Navigation.NavigationTarget(target), type);
