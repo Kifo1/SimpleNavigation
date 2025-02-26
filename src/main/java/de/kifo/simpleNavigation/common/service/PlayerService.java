@@ -28,6 +28,10 @@ public class PlayerService {
         naviPlayers.remove(naviPlayer);
     }
 
+    public void handleShutdown() {
+        naviPlayers.forEach(naviPlayer -> database.saveNaviPlayer(naviPlayer));
+    }
+
     public static NaviPlayer getNaviPlayer(Player player) {
         return naviPlayers.stream()
                 .filter(naviPlayer -> naviPlayer.getUuid().equals(player.getUniqueId()))

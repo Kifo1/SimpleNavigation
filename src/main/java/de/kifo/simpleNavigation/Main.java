@@ -63,6 +63,8 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        playerService.handleShutdown();
+
         database.closeConnection();
     }
 
