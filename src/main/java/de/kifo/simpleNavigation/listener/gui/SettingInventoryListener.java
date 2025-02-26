@@ -1,7 +1,5 @@
 package de.kifo.simpleNavigation.listener.gui;
 
-import com.google.inject.Inject;
-import de.kifo.simpleNavigation.Main;
 import de.kifo.simpleNavigation.common.enums.NavigationType;
 import de.kifo.simpleNavigation.common.files.database.entities.NaviPlayer;
 import org.bukkit.Material;
@@ -22,7 +20,7 @@ public class SettingInventoryListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        Inventory inventory = event.getInventory();
+        Inventory inventory = event.getClickedInventory();
 
         if (!settingInventories.contains(inventory)) {
             return;
