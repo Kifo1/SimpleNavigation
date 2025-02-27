@@ -189,4 +189,18 @@ public class Database {
         }
         return naviPoints;
     }
+
+    public void deleteNaviPoint(NaviPoint naviPoint) {
+        try {
+            PreparedStatement statement = getConnection()
+                    .prepareStatement("DELETE FROM navi_point WHERE name = ? AND playerUuid = ?");
+            statement.setString(1, naviPoint.getNaviPointName().toLowerCase());
+            statement.setString(2, naviPoint.getPlayer().toString());
+
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
