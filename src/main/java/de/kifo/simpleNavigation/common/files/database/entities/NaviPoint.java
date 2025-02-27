@@ -14,7 +14,6 @@ public class NaviPoint {
     private final int x;
     private final int y;
     private final int z;
-    private final boolean publicNaviPoint;
-    private final UUID player; // null if it's a public navi point
+    private final UUID player;
 
 }
