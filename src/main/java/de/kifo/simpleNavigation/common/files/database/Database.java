@@ -190,12 +190,12 @@ public class Database {
         return naviPoints;
     }
 
-    public void deleteNaviPoint(NaviPoint naviPoint) {
+    public void deleteNaviPoint(String name, UUID playerUuid) {
         try {
             PreparedStatement statement = getConnection()
                     .prepareStatement("DELETE FROM navi_point WHERE name = ? AND playerUuid = ?");
-            statement.setString(1, naviPoint.getNaviPointName().toLowerCase());
-            statement.setString(2, naviPoint.getPlayer().toString());
+            statement.setString(1, name.toLowerCase());
+            statement.setString(2, playerUuid.toString());
 
             statement.executeUpdate();
             statement.close();
