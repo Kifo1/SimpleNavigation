@@ -2,6 +2,7 @@ package de.kifo.simpleNavigation.common.files.database;
 
 import de.kifo.simpleNavigation.common.enums.NavigationType;
 import de.kifo.simpleNavigation.common.files.database.entities.NaviPlayer;
+import de.kifo.simpleNavigation.common.files.database.entities.NaviPoint;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -48,6 +49,7 @@ public class Database {
 
     private void initialize() throws SQLException {
         initializeNaviPlayerTable();
+        initializeNaviPointTable();
     }
 
     /**
@@ -97,5 +99,20 @@ public class Database {
         }
 
         return new NaviPlayer(uuid);
+    }
+
+    /**
+     *  {@link NaviPoint}
+     */
+
+    public void initializeNaviPointTable() throws SQLException {
+        Connection connection = getConnection();
+
+        PreparedStatement statement = connection
+                .prepareStatement("CREATE TABLE IF NOT EXISTS " +
+                        "navi_point(name varchar(100) primary key, world varchar(100), x int, y int, z int, publicNaviPoint boolean, playerUuid varchar(36))");
+
+        statement.executeUpdate();
+        statement.close();
     }
 }
