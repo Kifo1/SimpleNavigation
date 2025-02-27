@@ -110,7 +110,7 @@ public class Database {
 
         PreparedStatement statement = connection
                 .prepareStatement("CREATE TABLE IF NOT EXISTS " +
-                        "navi_point(name varchar(100) primary key, world varchar(100), x int, y int, z int, playerUuid varchar(36))");
+                        "navi_point(name varchar(100), world varchar(100), x int, y int, z int, playerUuid varchar(36), PRIMARY KEY (name, playerUuid))");
 
         statement.executeUpdate();
         statement.close();
