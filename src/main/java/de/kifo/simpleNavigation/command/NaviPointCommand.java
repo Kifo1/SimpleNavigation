@@ -56,14 +56,13 @@ public class NaviPointCommand implements CommandExecutor, TabCompleter {
                 return false;
             }
 
-            player.sendMessage(text("Navi points:", GOLD));
             Set<NaviPoint> naviPoints = naviPointService.getAllNaviPointsByPlayer(uuid);
-
             if (naviPoints.size() == 0) {
                 player.sendMessage(text("You don't have any navi points.", RED));
                 return false;
             }
 
+            player.sendMessage(text("Navi points:", GOLD));
             naviPointService.getAllNaviPointsByPlayer(uuid).forEach(naviPoint -> {
                 Component component = text("»", GRAY)
                         .appendSpace()
