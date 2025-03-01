@@ -73,7 +73,7 @@ public class NaviCommand implements CommandExecutor, TabCompleter {
             case 1 -> options = of("<x>");
             case 2 -> options = of("<y>");
             case 3 -> options = of("<z>");
-            default -> options = getOnlinePlayers().stream().map(p -> p.getName()).toList();
+            default -> options = getOnlinePlayers().stream().map(Player::getName).toList();
         }
         return options;
     }

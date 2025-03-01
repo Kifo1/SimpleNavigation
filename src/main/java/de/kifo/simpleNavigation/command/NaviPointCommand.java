@@ -26,6 +26,7 @@ import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
 import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
 import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+import static org.bukkit.Bukkit.getOnlinePlayers;
 
 public class NaviPointCommand implements CommandExecutor, TabCompleter {
 
@@ -90,7 +91,13 @@ public class NaviPointCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        return of();
+        List<String> options;
+        switch (strings.length) {
+            case 1 -> options = of("list", "add", "remove");
+            case 2 -> options = of("[name]");
+            default -> options = getOnlinePlayers().stream().map(Player::getName).toList();
+        }
+        return options;
     }
 
     private void sendUsage(Player player) {
