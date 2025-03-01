@@ -1,5 +1,6 @@
 package de.kifo.simpleNavigation.command;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,9 +16,16 @@ import static com.google.common.collect.ImmutableList.of;
 import static de.kifo.simpleNavigation.Main.configuration;
 import static de.kifo.simpleNavigation.Main.naviPointService;
 import static net.kyori.adventure.text.Component.text;
+import static net.kyori.adventure.text.event.ClickEvent.Action.RUN_COMMAND;
+import static net.kyori.adventure.text.event.ClickEvent.clickEvent;
+import static net.kyori.adventure.text.event.HoverEvent.Action.SHOW_TEXT;
+import static net.kyori.adventure.text.event.HoverEvent.hoverEvent;
+import static net.kyori.adventure.text.format.NamedTextColor.GOLD;
 import static net.kyori.adventure.text.format.NamedTextColor.GRAY;
 import static net.kyori.adventure.text.format.NamedTextColor.GREEN;
 import static net.kyori.adventure.text.format.NamedTextColor.RED;
+import static net.kyori.adventure.text.format.NamedTextColor.WHITE;
+import static net.kyori.adventure.text.format.NamedTextColor.YELLOW;
 
 public class NaviPointCommand implements CommandExecutor, TabCompleter {
 
@@ -47,7 +55,16 @@ public class NaviPointCommand implements CommandExecutor, TabCompleter {
                 return false;
             }
 
-            //TODO list all navipoints for the specific player
+            player.sendMessage(text("Navi points:", GOLD));
+            naviPointService.getAllNaviPointsByPlayer(uuid).forEach(naviPoint -> {
+                Component component = text("»", GRAY)
+                        .appendSpace()
+                        .append(text(naviPoint.getNaviPointName(), YELLOW))
+                        .hoverEvent(hoverEvent(SHOW_TEXT, text("Click to start navigation.", WHITE)))
+                        .clickEvent(clickEvent(RUN_COMMAND, "/navi " + naviPoint.getX() + " " + naviPoint.getY() + " " + naviPoint.getZ()));
+
+                player.sendMessage(component);
+            });
         } else {
             if (strings[0].equalsIgnoreCase("add")) {
                 if (naviPointExists) {
