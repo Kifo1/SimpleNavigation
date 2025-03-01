@@ -47,9 +47,7 @@ public class NaviPointCommand implements CommandExecutor, TabCompleter {
             return false;
         }
 
-        String name = strings[1];
         UUID uuid = player.getUniqueId();
-        boolean naviPointExists = naviPointService.naviPointExists(name, uuid);
         if (strings.length == 1) {
             if (!strings[0].equalsIgnoreCase("list")) {
                 sendUsage(player);
@@ -67,6 +65,9 @@ public class NaviPointCommand implements CommandExecutor, TabCompleter {
                 player.sendMessage(component);
             });
         } else {
+            String name = strings[1];
+            boolean naviPointExists = naviPointService.naviPointExists(name, uuid);
+
             if (strings[0].equalsIgnoreCase("add")) {
                 if (naviPointExists) {
                     player.sendMessage(text("This name is not available.", RED));
