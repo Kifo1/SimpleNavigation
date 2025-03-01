@@ -4,12 +4,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import de.kifo.simpleNavigation.command.ConsoleNaviCommand;
 import de.kifo.simpleNavigation.command.NaviCommand;
+import de.kifo.simpleNavigation.command.NaviPointCommand;
 import de.kifo.simpleNavigation.command.ReloadCommand;
 import de.kifo.simpleNavigation.command.SettingsCommand;
 import de.kifo.simpleNavigation.command.SharepositionCommand;
 import de.kifo.simpleNavigation.common.files.Configuration;
 import de.kifo.simpleNavigation.common.files.database.Database;
 import de.kifo.simpleNavigation.common.service.ItemService;
+import de.kifo.simpleNavigation.common.service.NaviPointService;
 import de.kifo.simpleNavigation.common.service.NavigationService;
 import de.kifo.simpleNavigation.common.service.PlayerService;
 import de.kifo.simpleNavigation.listener.NaviItemProtectListener;
@@ -33,6 +35,7 @@ public final class Main extends JavaPlugin {
 
     public static ItemService itemService;
     public static NavigationService navigationService;
+    public static NaviPointService naviPointService;
     public static PlayerService playerService;
 
     @Override
@@ -47,10 +50,12 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         itemService = new ItemService(this);
         navigationService = new NavigationService(this);
+        naviPointService = new NaviPointService(this);
         playerService = new PlayerService(this);
 
         getCommand("consolenavi").setExecutor(injector.getInstance(ConsoleNaviCommand.class));
         getCommand("navi").setExecutor(injector.getInstance(NaviCommand.class));
+        getCommand("navipoint").setExecutor(injector.getInstance(NaviPointCommand.class));
         getCommand("reload").setExecutor(injector.getInstance(ReloadCommand.class));
         getCommand("settings").setExecutor(injector.getInstance(SettingsCommand.class));
         getCommand("shareposition").setExecutor(injector.getInstance(SharepositionCommand.class));

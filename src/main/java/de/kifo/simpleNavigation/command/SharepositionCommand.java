@@ -99,7 +99,7 @@ public class SharepositionCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        return getOnlinePlayers().stream().map(p -> p.getName()).toList();
+        return getOnlinePlayers().stream().map(Player::getName).toList();
     }
 
     private void sendUsage(Player player) {
