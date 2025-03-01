@@ -44,8 +44,4 @@ public class NaviPointService {
     public boolean naviPointExists(String name, UUID uuid) {
         return nonNull(database.getNaviPoint(name, uuid));
     }
-
-    // See all navi points
-    // <add> Add a new navi point
-    // <remove> delete a navi point
 }
