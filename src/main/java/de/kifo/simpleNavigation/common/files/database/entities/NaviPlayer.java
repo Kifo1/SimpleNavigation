@@ -18,4 +18,3 @@ public class NaviPlayer {
     private NavigationType preferredNavigationType = PARTICLES;
 
 }
-

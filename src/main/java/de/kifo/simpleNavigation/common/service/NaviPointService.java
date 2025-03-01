@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static de.kifo.simpleNavigation.Main.database;
+import static java.util.Objects.nonNull;
 
 @Data
 public class NaviPointService {
@@ -24,8 +25,8 @@ public class NaviPointService {
         database.addNaviPoint(naviPoint);
     }
 
-    public void addNaviPoint(String name, Location location, Player player) {
-        database.addNaviPoint(new NaviPoint(name, location.getWorld().getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ(), player.getUniqueId()));
+    public void addNaviPoint(String name, Location location, UUID uuid) {
+        database.addNaviPoint(new NaviPoint(name, location.getWorld().getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ(), uuid));
     }
 
     public NaviPoint getNaviPoint(String name, UUID uuid) {
@@ -39,4 +40,12 @@ public class NaviPointService {
     public void deleteNaviPoint(String name, UUID uuid) {
         database.deleteNaviPoint(name, uuid);
     }
+
+    public boolean naviPointExists(String name, UUID uuid) {
+        return nonNull(database.getNaviPoint(name, uuid));
+    }
+
+    // See all navi points
+    // <add> Add a new navi point
+    // <remove> delete a navi point
 }
