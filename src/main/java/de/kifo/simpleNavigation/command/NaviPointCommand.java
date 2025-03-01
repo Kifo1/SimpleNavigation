@@ -1,5 +1,6 @@
 package de.kifo.simpleNavigation.command;
 
+import de.kifo.simpleNavigation.common.files.database.entities.NaviPoint;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.google.common.collect.ImmutableList.of;
@@ -55,6 +57,13 @@ public class NaviPointCommand implements CommandExecutor, TabCompleter {
             }
 
             player.sendMessage(text("Navi points:", GOLD));
+            Set<NaviPoint> naviPoints = naviPointService.getAllNaviPointsByPlayer(uuid);
+
+            if (naviPoints.size() == 0) {
+                player.sendMessage(text("You don't have any navi points.", RED));
+                return false;
+            }
+
             naviPointService.getAllNaviPointsByPlayer(uuid).forEach(naviPoint -> {
                 Component component = text("»", GRAY)
                         .appendSpace()
