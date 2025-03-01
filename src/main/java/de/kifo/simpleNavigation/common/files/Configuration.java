@@ -16,6 +16,7 @@ public class Configuration extends PluginFile {
 
         // Permissions
         settings.put("permission.command.navi", "navi.use");
+        settings.put("permission.command.navipoint", "navi.navipoint");
         settings.put("permission.command.reload", "navi.reload");
         settings.put("permission.command.shareposition", "navi.shareposition");
         settings.put("permission.command.settings", "navi.settings");
